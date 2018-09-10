@@ -1,6 +1,6 @@
 # Molecular dynamics simulation tutorial for Structural Biology 
 
-The aim of this tutorial is to learn molecular dynamics simulation. Tryptophane cage (or Trp-cage, 1L2Y) is
+The aim of this tutorial is to learn molecular dynamics simulation. Tryptophan cage (or Trp-cage, 1L2Y) is
 an artificial miniprotein (20 residues) derived from venom of *Gila monster*. Despite its small size it folds
 into a compact structure. This folding is super-fast compared to regular proteins. This make Trp-cage a
 favorite model miniprotein for folding simulations. Here we will simulate its dynamics:
@@ -15,7 +15,7 @@ and got to the directory `md4structbioinf`.
 This structure was measured by NMR. Structures measured by NMR and typically stored in PDB as several models.
 Each model represents the results of one independent process of determination of structure from NOE and other
 restrains. For the purpose of this tutorial the first structure was retained and other structures were deleted.
-PDB format is a text format, so it is possible to delete structures mannually in a text editor.
+PDB format is a text format, so it is possible to delete structures manually in a text editor.
 
 This structure must be converted from PDB to Gromacs formate. At the same time topology is generated
 and hydrogens are added. This can be done by command:
@@ -38,7 +38,7 @@ gmx solvate -cs -cp box -o solvated -p protein
 ```
 
 5. Neutralize the box. Try to determine the net charge of the molecule. It is necessary to add either Na+ or Cl- 
-to compensat the charge. In Gromacs there is a command `gmx genion`, but we can do without it. Instead, copy the
+to compensate the charge. In Gromacs there is a command `gmx genion`, but we can do without it. Instead, copy the
 structure of solvated system:
 ```
 cp solvated.gro neutral.gro
