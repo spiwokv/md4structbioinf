@@ -20,16 +20,16 @@ PDB format is a text format, so it is possible to delete structures mannually in
 This structure must be converted from PDB to Gromacs formate. At the same time topology is generated
 and hydrogens are added. This can be done by command:
 ```
-gmx pdb2gmx -f 1L2Ym1.pdb -o protein -p protein
+gmx pdb2gmx -f 1L2Ym1.pdb -o protein -p protein -ignh
 ```
 You will be asked for force field and water model. Chose Amber99SB-ILDN and TIP3P. Inspect files `protein.gro`
 and `protein.top`.
 
 3. Generate the simulation box and center the protein in it. This can be done by command:
 ```
-gmx editconf -f protein -o box -c -box 3 3 3
+gmx editconf -f protein -o box -c -box 5 5 5
 ```
-This will generate a file `box.gro` with coordinates from `protein.gro` moved so that the box size is 3x3x3 nm
+This will generate a file `box.gro` with coordinates from `protein.gro` moved so that the box size is 5x5x5 nm
 and the molecule is centered in the box.
 
 4. Fill the box with water by typing:
@@ -58,8 +58,27 @@ and copy there `protein.top`, `neutral.gro` and `em.mdp`. Inspect the file `em.m
 are OK. To run energy minimization type the pair of commands (may take few minutes):
 ```
 gmx grompp -f em.mdp -c neutral.gro -p protein.top -o em1
-gmx mdrun -s em1 -o em1 -g em1 -c after_em1 -e em1
+gmx mdrun -s em1 -o em1 -g em1 -c after_em1 -e em1 -v
 ```
 
+7. In order to settle water around protein atoms, make a new subdirectory in `md4structbioinf`, copy there
+all necessary files and run restrained simulation:
+```
+gmx grompp -f nvt.mdp -c after_em1.gro -r after_em1.gro -p protein.top -o nvt.tpr
+gmx mdrun -s nvt -o nvt -e nvt -g nvt -c after_nvt -v
+```
 
+8. In order to equilibrate pressure, make a new subdirectory in `md4structbioinf`, copy there
+all necessary files and run restrained simulation:
+```
+gmx grompp -f npt.mdp -c after_nvt.gro -r after_nvt.gro -t state.cpt -p protein.top -o npt.tpr
+gmx mdrun -s npt -o npt -e npt -g npt -c after_npt -v
+```
+
+9. Run production (unrestrained) simulation. Make a new subdirectory in `md4structbioinf`,
+copy there all necessary files and run the simulation:
+```
+gmx grompp -f prod.mdp -c after_npt.gro -t state.cpt -p protein.top -o prod.tpr
+gmx mdrun -s prod -o prod -e prod -g prod -c after_prod -v
+```
 
