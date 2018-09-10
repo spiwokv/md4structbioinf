@@ -1,4 +1,4 @@
-# Molecular dynamics simulation tutorial for Structural biology 
+# Molecular dynamics simulation tutorial for Structural Biology 
 
 The aim of this tutorial is to learn molecular dynamics simulation. Tryptophane cage (or Trp-cage, 1L2Y) is
 an artificial miniprotein (20 residues) derived from venom of *Gila monster*. Despite its small size it folds
